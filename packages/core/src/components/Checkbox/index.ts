@@ -14,6 +14,7 @@ export class Checkbox extends LitElement implements HasValue {
   static styles = css`
     :host {
       display: block;
+      overflow: hidden;
     }
 
     .parent-label {
@@ -40,6 +41,15 @@ export class Checkbox extends LitElement implements HasValue {
     :host([inverted]) .parent-label {
       flex-direction: row-reverse;
       justify-content: start;
+    }
+
+    bim-label {
+      /* 
+       * 1rem = input width, 0.25rem = parent flex gab
+       * in case you changed any othe mentioned above,
+       * this better be changed accordingly
+       */
+      max-width: calc(100% - calc(1rem + 0.25rem));
     }
 
     input,
