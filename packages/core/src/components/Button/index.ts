@@ -5,6 +5,7 @@ import { createRef, ref } from "lit/directives/ref.js";
 import "iconify-icon";
 import { Manager } from "../../core";
 import { ContextMenu } from "../ContextMenu";
+import { hasTouchScreenOnly, isMobile } from "../../utils/interactionSupport";
 
 /**
  * A custom button web component for BIM applications. HTML tag: bim-button
@@ -85,6 +86,7 @@ export class Button extends LitElement {
     .button {
       flex-grow: 1;
       transition: transform 0.15s;
+      overflow: hidden;
     }
 
     :host(:not([label-hidden])[label]) .button {
@@ -346,23 +348,23 @@ export class Button extends LitElement {
   private _tooltip = createRef<HTMLDivElement>();
   private timeoutID?: number;
 
-  private _mouseLeave = false;
+  private _tooltipHidden = false;
 
-  private set mouseLeave(value: boolean) {
-    this._mouseLeave = value;
+  private set tooltipHidden(value: boolean) {
+    this._tooltipHidden = value;
     if (value) {
       this.tooltipVisible = false;
       clearTimeout(this.timeoutID);
     }
   }
 
-  private get mouseLeave() {
-    return this._mouseLeave;
+  private get tooltipHidden() {
+    return this._tooltipHidden;
   }
 
   constructor() {
     super();
-    this.mouseLeave = true;
+    this.tooltipHidden = true;
   }
 
   private computeTooltipPosition() {
@@ -381,12 +383,12 @@ export class Button extends LitElement {
     });
   }
 
-  private onMouseEnter() {
+  private showTooltip() {
     if (!(this.tooltipTitle || this.tooltipText)) return;
-    this.mouseLeave = false;
+    this.tooltipHidden = false;
     const tooltipTime = this.tooltipTime ?? 700;
     this.timeoutID = setTimeout(() => {
-      if (this.mouseLeave) return;
+      if (this.tooltipHidden) return;
       this.computeTooltipPosition();
       this.tooltipVisible = true;
     }, tooltipTime) as unknown as number;
@@ -439,11 +441,27 @@ export class Button extends LitElement {
   connectedCallback() {
     super.connectedCallback();
     this.addEventListener("click", this.showContextMenu);
+    this.addTooltipEvents();
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
     this.removeEventListener("click", this.showContextMenu);
+  }
+
+  private addTooltipEvents() {
+    if (isMobile() || hasTouchScreenOnly()) {
+      this.addEventListener("contextmenu", (e) => {
+        e.preventDefault();
+        this.tooltipTime = 0;
+        this.showTooltip();
+      });
+    } else {
+      this.addEventListener("mouseenter", this.showTooltip);
+    }
+    this.addEventListener("mouseleave", () => {
+      this.tooltipHidden = true;
+    });
   }
 
   protected render() {
@@ -475,11 +493,7 @@ export class Button extends LitElement {
       <div ${ref(this._parent)} class="parent" @click=${this.onClick}>
         ${this.label || this.icon
           ? html`
-              <div
-                class="button"
-                @mouseenter=${this.onMouseEnter}
-                @mouseleave=${() => (this.mouseLeave = true)}
-              >
+              <div class="button">
                 <bim-label
                   .icon=${this.icon}
                   .vertical=${this.vertical}
