@@ -28,7 +28,9 @@ type TableData = {
   Bio: string;
 };
 
-const simpleTable = document.createElement("bim-table") as BUI.Table<TableData>;
+const simpleTable = document.createElement(
+  "bim-table",
+) as unknown as BUI.Table<TableData>;
 
 /* MD
   ### 📃 Adding Data
@@ -168,7 +170,9 @@ const deleteBtn = BUI.Component.create(() => {
   One of the most common missing features we've seen in other table components in the market is the possibility to nest data. Many things in a BIM application shows a hierarchical structure: element data, project tree, etc. A BIM model contains a lot of relations, and displaying them in a table is a must. Luckily, doing it is surpisingly simple, so let's create a another table and see what its different in the data structure 👇
   */
 
-const nestedTable = document.createElement("bim-table") as BUI.Table<TableData>;
+const nestedTable = document.createElement(
+  "bim-table",
+) as unknown as BUI.Table<TableData>;
 nestedTable.data = [
   {
     data: {
@@ -323,7 +327,7 @@ const addChildBtn = BUI.Component.create(() => {
 const appContent = BUI.Component.create(
   () => BUI.html`
    <div style="display: flex; flex-direction: column; gap: 0.75rem; height: 100%;">
-     <div style="display: flex; gap: 0.5rem">
+     <div style="display: flex; gap: 0.5rem; max-width: 100%; min-height: max-content; overflow-x: auto;">
        ${changeBtn}
        ${deleteBtn}
        ${addChildBtn}
