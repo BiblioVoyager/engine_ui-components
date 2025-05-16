@@ -8,8 +8,8 @@ import { HasName, HasValue } from "../../core/types";
  */
 export class NumberInput extends LitElement implements HasValue, HasName {
   /**
-  * CSS styles for the component.
-  */
+   * CSS styles for the component.
+   */
   static styles = css`
     :host {
       --bim-input--bgc: var(
@@ -348,40 +348,62 @@ export class NumberInput extends LitElement implements HasValue, HasName {
       input.value = this.value.toString();
   }
 
-  private onSliderMouseDown(e: MouseEvent) {
+  private onSliderPointerDown(e: PointerEvent) {
+    const isTouch = e.pointerType === "touch";
+    const touchSlideSpeed = 0.5; // Adds to the hardness on touch usage, the less the faster
+
     document.body.style.cursor = "w-resize";
     const { clientX: startPosition } = e;
     const initialValue = this.value;
-    let mouseMove = false;
-    const onMouseMove = (e: MouseEvent) => {
-      mouseMove = true;
-      const { clientX: endPosition } = e;
+    let pointerMove = false;
+
+    // Once a mouse/touch move happens, update the number input (increase or decrease)
+    const onInputMove = (e: MouseEvent | TouchEvent) => {
+      pointerMove = true;
+      const endPosition =
+        e instanceof TouchEvent ? e.touches[0].clientX : e.clientX;
+      console.log(endPosition);
       const step = this.step ?? 1;
       const stepDecimals = step.toString().split(".")[1]?.length || 0;
-      const hardness = 1 / (this.sensitivity ?? 1);
+      let hardness = 1 / (this.sensitivity ?? 1);
+      hardness *= isTouch ? touchSlideSpeed : 1;
       const calc = (endPosition - startPosition) / hardness;
-      if (Math.floor(Math.abs(calc)) !== Math.abs(calc)) return;
+      if (Math.floor(Math.abs(calc)) !== Math.abs(calc) && !isTouch) return;
       const value = initialValue + calc * step;
       this.setValue(value.toFixed(stepDecimals));
     };
+
     const onBlur = () => {
       this.slider = true;
       this.removeEventListener("blur", onBlur);
     };
-    const onMouseUp = () => {
-      document.removeEventListener("mousemove", onMouseMove);
+
+    // Cleaning up once the event ends
+    const onInputUp = () => {
+      document.removeEventListener(
+        `${isTouch ? "touch" : "mouse"}move`,
+        onInputMove,
+      );
       document.body.style.cursor = "default";
-      if (mouseMove) {
-        mouseMove = false;
+      if (pointerMove) {
+        pointerMove = false;
       } else {
         this.addEventListener("blur", onBlur);
         this.slider = false;
         requestAnimationFrame(() => this.focus());
       }
-      document.removeEventListener("mouseup", onMouseUp);
+      document.removeEventListener(
+        `${isTouch ? "touchend" : "mouseup"}`,
+        onInputUp,
+      );
     };
-    document.addEventListener("mousemove", onMouseMove);
-    document.addEventListener("mouseup", onMouseUp);
+
+    // Adding events
+    document.addEventListener(
+      `${isTouch ? "touch" : "mouse"}move`,
+      onInputMove,
+    );
+    document.addEventListener(`${isTouch ? "touchend" : "mouseup"}`, onInputUp);
   }
 
   private onFocus(e: Event) {
@@ -419,7 +441,7 @@ export class NumberInput extends LitElement implements HasValue, HasName {
       ${this.pref || this.icon
         ? html`<bim-label
             style="pointer-events: auto"
-            @mousedown=${this.onSliderMouseDown}
+            @pointerdown=${this.onSliderPointerDown}
             .icon=${this.icon}
             >${this.pref}</bim-label
           >`
@@ -438,7 +460,7 @@ export class NumberInput extends LitElement implements HasValue, HasName {
       ${this.suffix
         ? html`<bim-label
             style="pointer-events: auto"
-            @mousedown=${this.onSliderMouseDown}
+            @pointerdown=${this.onSliderPointerDown}
             >${this.suffix}</bim-label
           >`
         : null}
@@ -453,7 +475,7 @@ export class NumberInput extends LitElement implements HasValue, HasName {
           width: ${`${normalizedValue}%`};
         }
       </style>
-      <div class="slider" @mousedown=${this.onSliderMouseDown}>
+      <div class="slider" @pointerdown=${this.onSliderPointerDown}>
         <div class="slider-indicator"></div>
         ${this.pref || this.icon
           ? html`<bim-label

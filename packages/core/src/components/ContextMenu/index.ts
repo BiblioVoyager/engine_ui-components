@@ -123,7 +123,7 @@ export class ContextMenu extends LitElement {
         this._previousContainer = null;
         this.style.setProperty("display", "none");
         this.dispatchEvent(new Event("hidden"));
-      }, 310); // at the transition max speed
+      }, 300); // at the transition max speed
     }
   }
 
