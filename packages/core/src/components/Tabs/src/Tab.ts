@@ -30,6 +30,16 @@ export class Tab extends LitElement {
       opacity: 0;
       overflow: hidden;
       visibility: hidden;
+      animation: hideTabSmoothly 0.6s linear forwards;
+    }
+
+    @keyframes hideTabSmoothly {
+      0% {
+        max-width: 100vw;
+      }
+      100% {
+        max-width: 0vw;
+      }
     }
   `;
 
