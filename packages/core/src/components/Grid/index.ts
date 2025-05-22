@@ -6,6 +6,8 @@ import {
   GridLayoutsDefinition,
   UpdateGridLayoutElements,
 } from "./src";
+import { screenType } from "../../utils/interactionSupport";
+import { Panel } from "../Panel";
 
 /**
  * A custom grid component for web applications.
@@ -135,12 +137,75 @@ export class Grid<T extends GridLayoutComponents = {}> extends LitElement {
     return uniqueAreas;
   }
 
+  private applyScreenRules(
+    elementsMap: Record<string, HTMLElement>,
+    screenRules: Record<string, string | string[]>,
+  ) {
+    for (const [area, allowedScreens] of Object.entries(screenRules)) {
+      const element = elementsMap[area] as Panel;
+      if (!element) continue;
+
+      const currentScreen = screenType();
+      const isAllowed =
+        (Array.isArray(allowedScreens) &&
+          allowedScreens.includes(currentScreen)) ||
+        (typeof allowedScreens === "string" &&
+          allowedScreens === currentScreen);
+
+      if (isAllowed) {
+        element.style.removeProperty("display");
+        element.activationButton.style.removeProperty("display");
+      } else {
+        element.style.setProperty("display", "none");
+        element.activationButton.style.setProperty("display", "none");
+      }
+    }
+  }
+
+  private setCSSGridTemplate() {
+    if (!this.layout) return;
+
+    const layout = this.layouts[this.layout];
+    if (!layout) return;
+
+    const elementsMap = layout.elements as Record<string, HTMLElement>;
+
+    // Apply screen rules if defined
+    if (layout.screenRules && typeof layout.screenRules === "object") {
+      this.applyScreenRules(
+        elementsMap,
+        layout.screenRules as Record<string, string | string[]>,
+      );
+    }
+
+    // Set grid template based on screen type
+    const currentScreen = screenType();
+    if (layout.tabletTemplate && currentScreen === "tablet") {
+      this.style.setProperty("grid-template", layout.tabletTemplate);
+    } else if (layout.mobileTempalte && currentScreen === "mobile") {
+      this.style.setProperty("grid-template", layout.mobileTempalte);
+    } else {
+      this.style.setProperty("grid-template", layout.template);
+    }
+  }
+
   private _onLayoutChange?: Event;
+  private _lastScreenType = screenType(); // Track the last known screen type
 
   protected firstUpdated() {
     this._onLayoutChange = new Event("layoutchange");
-  }
 
+    const observer = new ResizeObserver(() => {
+      const currentScreenType = screenType();
+      if (this._lastScreenType !== currentScreenType) {
+        this._lastScreenType = currentScreenType;
+        this.layouts = { ...this._layouts };
+        this.setCSSGridTemplate();
+      }
+    });
+
+    observer.observe(this);
+  }
   private _updateFunctions: {
     [layout: string]: { [area: string]: (state?: Record<string, any>) => void };
   } = {};
@@ -190,7 +255,7 @@ export class Grid<T extends GridLayoutComponents = {}> extends LitElement {
           })
           .filter((element) => !!element) as HTMLElement[];
 
-        this.style.gridTemplate = layout.template;
+        this.setCSSGridTemplate();
         this.append(...elements);
         if (this._onLayoutChange) this.dispatchEvent(this._onLayoutChange);
       }

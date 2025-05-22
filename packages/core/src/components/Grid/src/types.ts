@@ -14,12 +14,18 @@ type ExtractState<T> = T extends {
   ? N
   : never;
 
+type SingleDeviceTypes = "desktop" | "tablet" | "mobile";
+type MultipleDeviceTypes = Array<SingleDeviceTypes>;
+export type DeviceType = SingleDeviceTypes | MultipleDeviceTypes;
+
 /**
  Represents a collection of predefined grid layouts for the Grid component. Each layout is defined by a unique name, a grid template string, and a map of area names to HTMLElement instances. The grid template string defines the structure of the grid, and the area names correspond to the grid-area property of the HTMLElement instances. The HTMLElement instances are used to populate the grid with content.
  */
 export type GridLayoutsDefinition<T extends GridLayoutComponents> = {
   [K in keyof T]: {
     template: string;
+    tabletTemplate?: string;
+    mobileTempalte?: string;
     elements: {
       [P in ExtractName<T[K][number]>]?:
         | HTMLElement
@@ -28,6 +34,9 @@ export type GridLayoutsDefinition<T extends GridLayoutComponents> = {
             template: StatefullComponent<any>;
             initialState: ExtractState<T[K][number]>;
           };
+    };
+    screenRules?: {
+      [P in ExtractName<T[K][number]>]?: DeviceType;
     };
   };
 };

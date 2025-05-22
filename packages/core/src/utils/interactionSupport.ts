@@ -30,4 +30,28 @@ const hasTouchScreenOnly = () => {
   return matchMedia("(hover: none), (pointer: coarse)").matches;
 };
 
-export { isMobile, hasTouchScreenOnly };
+/**
+ * This one will return "desktop" | "tablet" | "mobile" depending on the width of the screen.
+ * It uses some common break points for each screen type, just as follows:
+ * 480px or less: Mobile Device
+ * 481px - 768px: iPads, Tablets
+ * 769px or more: Laptops and bigger devices
+ */
+const screenType = () => {
+  const width = window.innerWidth;
+  const mobile = 480;
+  const tablet = 768;
+
+  if (width <= mobile) {
+    return "mobile";
+  }
+  if (width > mobile && width <= tablet) {
+    return "tablet";
+  }
+  if (width > tablet) {
+    return "desktop";
+  }
+  throw new Error("The window isn't detected or have a strange size");
+};
+
+export { isMobile, hasTouchScreenOnly, screenType };

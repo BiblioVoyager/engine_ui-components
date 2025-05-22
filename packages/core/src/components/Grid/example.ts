@@ -8,7 +8,7 @@ const leftPanel = BUI.Component.create<BUI.Panel>(() => {
     alert("You clicked me!");
   };
   return BUI.html`
-    <bim-panel label="My Panel" icon="mynaui:panel-left-solid" style="width: 24rem;">
+    <bim-panel label="My Panel" id="my-panel" icon="mynaui:panel-left-solid" style="width: 33vw;">
       <bim-panel-section label="Panel Section" icon="solar:settings-bold">
         <bim-label>This is just a panel section... cool, right?</bim-label>
         <bim-button @click=${onBtnClick} label="Click me!"></bim-button>
@@ -321,7 +321,7 @@ const bottomPanel = BUI.Component.create<BUI.Panel>(() => {
   };
 
   return BUI.html`
-    <bim-panel label="Table" icon="material-symbols:table" style="height: 25rem">
+    <bim-panel label="Table" id="table" icon="material-symbols:table" style="height: 30vh">
       <bim-panel-section label="Assignments" fixed>
         <bim-table ${BUI.ref(onTableCreated)}></bim-table>
       </bim-panel-section>
@@ -334,7 +334,7 @@ const rightPanel = BUI.Component.create<BUI.Panel>(() => {
     alert("You are awesome 😏");
   };
   return BUI.html`
-    <bim-panel label="Right Panel" icon="mynaui:panel-right-solid" style="width: 20rem">
+    <bim-panel label="Right Panel" id="right-panel" icon="mynaui:panel-right-solid" style="width: 33vw;">
       <bim-panel-section label="Panel Section" icon="solar:settings-bold">
         <bim-button label="Button With Nestings">
           <bim-context-menu>
@@ -374,7 +374,7 @@ const ribbon = BUI.Component.create<BUI.Tabs>(() => {
   bottomPanelBtn.vertical = true;
 
   return BUI.html`
-   <bim-tabs>
+   <bim-tabs id="ribbon">
     <bim-tab label="Toolbar A">
       <bim-toolbar>
         <bim-toolbar-section label="Some section">
@@ -528,12 +528,27 @@ grid.layouts = {
       "leftPanel bottomPanel bottomPanel" auto
       / auto 1fr auto
     `,
+    tabletTemplate: `
+      "ribbon ribbon ribbon" auto
+      "leftPanel viewport ." 1fr
+      "leftPanel bottomPanel bottomPanel" auto
+      / auto 1fr auto`,
+    mobileTempalte: `
+      "ribbon ribbon ribbon" auto
+      ". viewport ." 1fr
+      "leftPanel leftPanel leftPanel" auto
+      / auto 1fr auto
+    `,
     elements: {
       ribbon,
       leftPanel,
       viewport,
       bottomPanel,
       rightPanel,
+    },
+    screenRules: {
+      rightPanel: "desktop",
+      bottomPanel: ["desktop", "tablet"],
     },
   },
 };
