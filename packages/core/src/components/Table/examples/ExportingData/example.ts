@@ -194,14 +194,16 @@ const copyBtn = BUI.Component.create(() => {
 const appContent = BUI.Component.create(
   () => BUI.html`
     <div style="display: flex; flex-direction: column; gap: 0.75rem; height: 100%;">
-      <div style="display: flex; gap: 0.5rem">
-        ${searchBox}
-        ${fileNameInput}
-        ${formatDropdown}
-        ${indentationCheckbox}
-        ${downloadBtn}
-        ${copyBtn}
-      </div> 
+      <div style="max-width: 100vw; overflow-x: auto;">
+        <div style="display: flex; gap: 0.5rem; min-width: min-content;">
+          ${searchBox}
+          ${fileNameInput}
+          ${formatDropdown}
+          ${indentationCheckbox}
+          ${downloadBtn}
+          ${copyBtn}
+        </div>
+      </div>
       ${table}
     </div>
   `,
