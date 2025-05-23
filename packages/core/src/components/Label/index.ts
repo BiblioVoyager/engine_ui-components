@@ -70,6 +70,13 @@ export class Label extends LitElement {
         calc(var(--bim-label--fz, var(--bim-ui_size-xs)) * 4)
       );
     }
+
+    /* Mobile View */
+    @media screen and (max-width: 480px) {
+      :host([icon]) {
+        line-height: unset;
+      }
+    }
   `;
 
   /**

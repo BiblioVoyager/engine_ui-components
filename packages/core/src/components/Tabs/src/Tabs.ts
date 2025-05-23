@@ -145,6 +145,20 @@ export class Tabs extends LitElement {
         border-radius: var(--bim-ui_size-2xs);
         background-color: var(--bim-ui_bg-base);
       }
+
+      @media screen and (max-width: 480px) {
+        .switchers {
+          height: 1.75rem;
+        }
+
+        :host([floating]) .switchers {
+          height: 2rem;
+        }
+
+        :host([floating]:not([tab="hidden"])) .content {
+          padding: 0.1rem 0.35rem 0.25rem;
+        }
+      }
     `,
   ];
 

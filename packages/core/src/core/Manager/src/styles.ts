@@ -18,6 +18,12 @@ const scrollbar = css`
   ::-webkit-scrollbar-track {
     background-color: var(--bim-scrollbar--bgc, var(--bim-ui_bg-base));
   }
+
+  @media screen and (max-width: 480px) {
+    ::-webkit-scrollbar {
+      width: 0.2rem;
+      height: 0.2rem;
+    }
 `;
 
 const globalStyles = css`
@@ -129,6 +135,15 @@ const globalStyles = css`
     --bim-ui_bg-contrast-80: var(--bim-ui_gray-2);
     --bim-ui_bg-contrast-100: var(--bim-ui_gray-0);
     --bim-ui_accent-base: #6528d7;
+  }
+
+  /* Mobile Sizes */
+  @media screen and (max-width: 480px) {
+    :root {
+      --bim-ui_size-xs: 0.7rem;
+      --bim-ui_size-sm: 0.8rem;
+      --bim-ui_size-5xl: 1.7rem;
+    }
   }
 
   @keyframes toggleOverlay {

@@ -21,6 +21,13 @@ export class ToolbarGroup extends LitElement {
     ::slotted(bim-button) {
       --bim-label--c: var(--bim-ui_bg-contrast-80);
     }
+
+    /* Mobile View */
+    @media screen and (max-width: 480px) {
+      .parent {
+        gap: 0;
+      }
+    }
   `;
 
   /**

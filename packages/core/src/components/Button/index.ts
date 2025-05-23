@@ -167,6 +167,13 @@ export class Button extends LitElement {
       display: none;
     }
 
+    /* Mobile View */
+    @media screen and (max-width: 480px) {
+      :host(:not([label-hidden])[label]) .button {
+        padding: 0 0.3rem;
+      }
+    }
+
     @keyframes closeTooltips {
       0% {
         display: flex;

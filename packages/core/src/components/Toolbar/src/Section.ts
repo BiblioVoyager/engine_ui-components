@@ -50,6 +50,18 @@ export class ToolbarSection extends LitElement implements HasName {
     :host([vertical]) .children {
       flex-direction: column;
     }
+
+    /* Mobile View */
+    @media screen and (max-width: 480px) {
+      :host(:not([vertical])) ::slotted(bim-button[vertical]) {
+        min-height: 3.4rem;
+      }
+
+      .parent {
+        gap: 0.25rem;
+        padding: 0.25rem;
+      }
+    }
   `;
 
   @property({ type: String, reflect: true })
