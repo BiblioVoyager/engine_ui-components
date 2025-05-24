@@ -30,10 +30,9 @@ export class Tab extends LitElement {
       opacity: 0;
       overflow: hidden;
       visibility: hidden;
-      animation: hideTabSmoothly 0.6s linear forwards;
     }
 
-    @keyframes hideTabSmoothly {
+    @keyframes hideFloatingTabSmoothly {
       0% {
         max-width: 100vw;
       }
@@ -91,6 +90,15 @@ export class Tab extends LitElement {
   @property({ type: Boolean, reflect: true })
   set hidden(value: boolean) {
     this._hidden = value;
+
+    const parent = this.parentElement;
+    if (parent?.hasAttribute("floating")) {
+      this.style.setProperty(
+        "animation",
+        value ? "hideFloatingTabSmoothly 0.6s linear forwards" : "none",
+      );
+    }
+
     this.dispatchEvent(new Event("hiddenchange"));
   }
 
