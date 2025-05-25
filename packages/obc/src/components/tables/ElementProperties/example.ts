@@ -147,7 +147,7 @@ app.layouts = {
     "propertiesPanel viewport"
     /25rem 1fr
     `,
-    mobileTempalte: `
+    tabletTemplate: `
       "viewport" 1fr
       "propertiesPanel" 1fr
       / 1fr

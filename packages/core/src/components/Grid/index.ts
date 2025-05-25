@@ -180,13 +180,16 @@ export class Grid<T extends GridLayoutComponents = {}> extends LitElement {
 
     // Set grid template based on screen type
     const currentScreen = screenType();
-    if (layout.tabletTemplate && currentScreen === "tablet") {
-      this.style.setProperty("grid-template", layout.tabletTemplate);
-    } else if (layout.mobileTempalte && currentScreen === "mobile") {
-      this.style.setProperty("grid-template", layout.mobileTempalte);
-    } else {
-      this.style.setProperty("grid-template", layout.template);
+    let template = layout.template;
+
+    if (currentScreen === "mobile") {
+      template =
+        layout.mobileTempalte || layout.tabletTemplate || layout.template;
+    } else if (currentScreen === "tablet") {
+      template = layout.tabletTemplate || layout.template;
     }
+
+    this.style.setProperty("grid-template", template);
   }
 
   private _onLayoutChange?: Event;

@@ -89,7 +89,7 @@ app.layouts = {
     "worldsConfigPanel viewport"
     /26rem 1fr
     `,
-    mobileTempalte: `
+    tabletTemplate: `
     "viewport" 1fr
     "worldsConfigPanel" 1fr
     / 1fr
