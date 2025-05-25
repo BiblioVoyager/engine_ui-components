@@ -113,6 +113,11 @@ app.layouts = {
       "panel viewport"
       / 30rem 1fr
     `,
+    mobileTempalte: `
+      "viewport" 1fr
+      "panel" 1fr
+      / 1fr
+    `,
     elements: { panel, viewport },
   },
 };

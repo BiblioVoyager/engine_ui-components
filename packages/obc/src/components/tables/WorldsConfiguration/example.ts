@@ -89,6 +89,11 @@ app.layouts = {
     "worldsConfigPanel viewport"
     /26rem 1fr
     `,
+    mobileTempalte: `
+    "viewport" 1fr
+    "worldsConfigPanel" 1fr
+    / 1fr
+    `,
     elements: { worldsConfigPanel, viewport },
   },
 };
