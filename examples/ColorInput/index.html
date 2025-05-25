@@ -17,17 +17,32 @@
     bim-color-input {
       width: 15rem;
     }
+
+    @media screen and (max-width: 480px) {
+      .container {
+        box-sizing: border-box;
+        width: 100%;
+        min-width: max-content;
+        padding: 20px 40px;
+      }
+
+      bim-color-input {
+        margin: auto;
+      }
+    }
   </style>
   <script type="module" crossorigin src="../assets/colorInput.js"></script>
   <link rel="modulepreload" crossorigin href="../assets/modulepreload-polyfill-B5Qt9EMX.js">
   <link rel="modulepreload" crossorigin href="../assets/lit-html-CuBe1DX_.js">
   <link rel="modulepreload" crossorigin href="../assets/state-VyZkHw6A.js">
   <link rel="modulepreload" crossorigin href="../assets/ref-DfidMTJ6.js">
-  <link rel="modulepreload" crossorigin href="../assets/index-DDTAtGfQ.js">
+  <link rel="modulepreload" crossorigin href="../assets/index-BtgM0BcM.js">
 </head>
 
 <body>
-  <bim-color-input label="Selection Color" color="#DF4E4E" opacity="20"></bim-color-input>
+  <div class="container">
+    <bim-color-input label="Selection Color" color="#DF4E4E" opacity="20"></bim-color-input>
+  </div>
 </body>
 
 </html>
