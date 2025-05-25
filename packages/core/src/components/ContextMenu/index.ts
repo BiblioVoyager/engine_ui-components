@@ -147,7 +147,14 @@ export class ContextMenu extends LitElement {
       placement,
       middleware: [offset(10), inline(), flip(), shift({ padding: 5 })],
     });
-    const { x, y } = position;
+
+    const wallMargin = 10;
+    const x = Math.min(
+      position.x,
+      window.innerWidth - this.clientWidth - wallMargin,
+    );
+    const y = position.y;
+
     this.style.left = `${x}px`;
     this.style.top = `${y}px`;
   }

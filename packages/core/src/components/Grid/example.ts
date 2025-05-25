@@ -8,7 +8,7 @@ const leftPanel = BUI.Component.create<BUI.Panel>(() => {
     alert("You clicked me!");
   };
   return BUI.html`
-    <bim-panel label="My Panel" id="my-panel" icon="mynaui:panel-left-solid" style="width: 33vw;">
+    <bim-panel label="My Panel" id="my-panel" icon="mynaui:panel-left-solid" style="width: 24rem;">
       <bim-panel-section label="Panel Section" icon="solar:settings-bold">
         <bim-label>This is just a panel section... cool, right?</bim-label>
         <bim-button @click=${onBtnClick} label="Click me!"></bim-button>
@@ -334,7 +334,7 @@ const rightPanel = BUI.Component.create<BUI.Panel>(() => {
     alert("You are awesome 😏");
   };
   return BUI.html`
-    <bim-panel label="Right Panel" id="right-panel" icon="mynaui:panel-right-solid" style="width: 33vw;">
+    <bim-panel label="Right Panel" id="right-panel" icon="mynaui:panel-right-solid">
       <bim-panel-section label="Panel Section" icon="solar:settings-bold">
         <bim-button label="Button With Nestings">
           <bim-context-menu>
@@ -526,13 +526,14 @@ grid.layouts = {
       "ribbon ribbon ribbon" auto
       "leftPanel viewport rightPanel" 1fr
       "leftPanel bottomPanel bottomPanel" auto
-      / auto 1fr auto
+      / auto 1fr 20rem
     `,
     tabletTemplate: `
       "ribbon ribbon ribbon" auto
       "leftPanel viewport ." 1fr
       "leftPanel bottomPanel bottomPanel" auto
-      / auto 1fr auto`,
+      / auto 1fr auto
+    `,
     mobileTempalte: `
       "ribbon ribbon ribbon" auto
       ". viewport ." 1fr
