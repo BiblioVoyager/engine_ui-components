@@ -402,7 +402,7 @@ app.layouts = {
     "customTopicPanel bcfPanel" 25rem
     /24rem 1fr
     `,
-    mobileTempalte: `
+    mobileTemplate: `
     "viewport" 3fr
     "bcfPanel" 1fr
     "customTopicPanel" 1fr

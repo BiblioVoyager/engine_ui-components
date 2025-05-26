@@ -25,7 +25,7 @@ export type GridLayoutsDefinition<T extends GridLayoutComponents> = {
   [K in keyof T]: {
     template: string;
     tabletTemplate?: string;
-    mobileTempalte?: string;
+    mobileTemplate?: string;
     elements: {
       [P in ExtractName<T[K][number]>]?:
         | HTMLElement

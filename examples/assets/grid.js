@@ -159,7 +159,7 @@ import"./modulepreload-polyfill-B5Qt9EMX.js";import{M as d,C as s}from"./index-B
       "leftPanel viewport ." 1fr
       "leftPanel bottomPanel bottomPanel" auto
       / auto 1fr auto
-    `,mobileTempalte:`
+    `,mobileTemplate:`
       "ribbon ribbon ribbon" auto
       ". viewport ." 1fr
       "leftPanel leftPanel leftPanel" auto

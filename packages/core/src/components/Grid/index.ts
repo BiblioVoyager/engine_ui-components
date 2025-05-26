@@ -184,7 +184,7 @@ export class Grid<T extends GridLayoutComponents = {}> extends LitElement {
 
     if (currentScreen === "mobile") {
       template =
-        layout.mobileTempalte || layout.tabletTemplate || layout.template;
+        layout.mobileTemplate || layout.tabletTemplate || layout.template;
     } else if (currentScreen === "tablet") {
       template = layout.tabletTemplate || layout.template;
     }
